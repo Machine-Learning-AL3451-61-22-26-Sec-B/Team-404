@@ -10,7 +10,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score
 # Function to load and process data
 @st.cache_data
 def load_data():
-    data = pd.read_csv('document.csv')
+    data = pd.read_csv('week5/document.csv')
     # Ensure the CSV has the correct headers
     if data.columns[0] != 'text' or data.columns[1] != 'label':
         data.columns = ['text', 'label']

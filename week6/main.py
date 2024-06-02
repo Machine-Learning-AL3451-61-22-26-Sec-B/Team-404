@@ -9,7 +9,7 @@ st.title("COVID-19 Bayesian Inference")
 
 # Load the dataset
 data_path = 'corona.csv'  # Adjust the path if necessary
-data = pd.read_csv(data_path)
+data = pd.read_csv('week6/corona.csv')
 
 # Display the first few rows of the dataset to ensure it's loaded correctly
 st.write("Dataset loaded successfully:")

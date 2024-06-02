@@ -12,7 +12,7 @@ np.random.seed(0)
 data = np.random.randn(300, 2)
 
 # Load the dataset
-@st.cache
+@st.cache_data
 def load_data():
     return pd.DataFrame(data, columns=['Feature 1', 'Feature 2'])
 
@@ -32,11 +32,13 @@ def em_clustering(data, n_clusters):
 
 # Plot clusters
 def plot_clusters(data, labels, title):
-    plt.scatter(data[:, 0], data[:, 1], c=labels, cmap='viridis')
-    plt.title(title)
-    plt.xlabel('Feature 1')
-    plt.ylabel('Feature 2')
-    st.pyplot()
+    fig, ax = plt.subplots()
+    ax.scatter(data[:, 0], data[:, 1], c=labels, cmap='viridis')
+    ax.set_title(title)
+    ax.set_xlabel('Feature 1')
+    ax.set_ylabel('Feature 2')
+    st.pyplot(fig)
+
 
 # Main function
 def main():

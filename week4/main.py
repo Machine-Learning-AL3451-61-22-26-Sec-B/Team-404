@@ -5,7 +5,7 @@ from sklearn.metrics import accuracy_score
 import streamlit as st
 
 # Load the dataset
-data = pd.read_csv('tennisdata.csv')
+data = pd.read_csv('week4/tennisdata.csv')
 
 # Preprocess the data (convert categorical to numerical)
 for column in ['Outlook', 'Temperature', 'Humidity']:

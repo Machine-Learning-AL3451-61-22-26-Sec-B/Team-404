@@ -1,62 +1,67 @@
 import streamlit as st
 import numpy as np
 
-# Sigmoid Function
-def sigmoid(x):
-    return 1/(1 + np.exp(-x))
+# Define the neural network class
+class NeuralNetwork:
+    def __init__(self, input_size, hidden_size, output_size, learning_rate=0.1):
+        self.weights_input_hidden = np.random.randn(input_size, hidden_size)
+        self.weights_hidden_output = np.random.randn(hidden_size, output_size)
+        self.learning_rate = learning_rate
 
-# Derivative of Sigmoid Function
-def derivatives_sigmoid(x):
-    return x * (1 - x)
+    def sigmoid(self, x):
+        return 1 / (1 + np.exp(-x))
 
-def train_neural_network(X, y, epoch, lr, inputlayer_neurons, hiddenlayer_neurons, output_neurons):
-    # Weight and bias initialization
-    wh = np.random.uniform(size=(inputlayer_neurons, hiddenlayer_neurons))
-    bh = np.random.uniform(size=(1, hiddenlayer_neurons))
-    wout = np.random.uniform(size=(hiddenlayer_neurons, output_neurons))
-    bout = np.random.uniform(size=(1, output_neurons))
+    def sigmoid_derivative(self, x):
+        return x * (1 - x)
 
-    # Draws a random range of numbers uniformly of dim x*y
-    for i in range(epoch):
-        hinp1 = np.dot(X, wh)
-        hinp = hinp1 + bh
-        hlayer_act = sigmoid(hinp)
-        outinp1 = np.dot(hlayer_act, wout)
-        outinp = outinp1 + bout
-        output = sigmoid(outinp)
+    def feedforward(self, X):
+        self.hidden_input = np.dot(X, self.weights_input_hidden)
+        self.hidden_output = self.sigmoid(self.hidden_input)
+        self.final_input = np.dot(self.hidden_output, self.weights_hidden_output)
+        self.final_output = self.sigmoid(self.final_input)
+        return self.final_output
 
-        # Backpropagation
-        EO = y - output
-        outgrad = derivatives_sigmoid(output)
-        d_output = EO * outgrad
-        EH = d_output.dot(wout.T)
-        hiddengrad = derivatives_sigmoid(hlayer_act)  # How much hidden layer weights
-        d_hiddenlayer = EH * hiddengrad
+    def backpropagate(self, X, y, output):
+        output_error = y - output
+        output_delta = output_error * self.sigmoid_derivative(output)
 
-        wout += hlayer_act.T.dot(d_output) * lr  # Dot product of next layer error and
-        wh += X.T.dot(d_hiddenlayer) * lr
+        hidden_error = output_delta.dot(self.weights_hidden_output.T)
+        hidden_delta = hidden_error * self.sigmoid_derivative(self.hidden_output)
 
-    return output
+        self.weights_hidden_output += self.hidden_output.T.dot(output_delta) * self.learning_rate
+        self.weights_input_hidden += X.T.dot(hidden_delta) * self.learning_rate
 
-def main():
-    st.title("Backpropagation with Streamlit")
+    def train(self, X, y, epochs=10000):
+        for epoch in range(epochs):
+            output = self.feedforward(X)
+            self.backpropagate(X, y, output)
 
-    st.sidebar.title("Parameters")
-    epoch = st.sidebar.slider("Epoch", min_value=1000, max_value=10000, step=1000, value=7000)
-    lr = st.sidebar.slider("Learning Rate", min_value=0.01, max_value=1.0, step=0.01, value=0.1)
-    inputlayer_neurons = st.sidebar.number_input("Input Layer Neurons", min_value=1, max_value=10, value=2)
-    hiddenlayer_neurons = st.sidebar.number_input("Hidden Layer Neurons", min_value=1, max_value=10, value=3)
-    output_neurons = st.sidebar.number_input("Output Neurons", min_value=1, max_value=10, value=1)
+# Initialize the neural network
+input_size = 2
+hidden_size = 2
+output_size = 1
+learning_rate = 0.1
+nn = NeuralNetwork(input_size, hidden_size, output_size, learning_rate)
 
-    X = np.array(([2, 9], [1, 5], [3, 6]), dtype=float)
-    y = np.array(([92], [86], [89]), dtype=float)
+# Create Streamlit interface
+st.title('Neural Network Training with Backpropagation')
 
-    X_normalized = X / np.amax(X, axis=0)  # maximum of X array longitudinally
-    y_normalized = y / 100
+# Input dataset
+st.header('Training Data')
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+y = np.array([[0], [1], [1], [0]])
 
-    if st.button("Train Neural Network"):
-        predicted_output = train_neural_network(X_normalized, y_normalized, epoch, lr, inputlayer_neurons, hiddenlayer_neurons, output_neurons)
-        st.write("Predicted Output: \n", predicted_output)
+# Train the neural network
+if st.button('Train Neural Network'):
+    epochs = st.number_input('Number of Epochs', min_value=1, value=10000)
+    nn.train(X, y, epochs)
+    st.success('Training complete!')
 
-if __name__ == "__main__":
-    main()
+# Test the neural network
+st.header('Test the Neural Network')
+test_input = st.text_input('Test Input (comma-separated)', '0,0')
+test_input = np.array([float(i) for i in test_input.split(',')]).reshape(1, -1)
+
+if st.button('Test Neural Network'):
+    output = nn.feedforward(test_input)
+    st.write('Output:', output[0][0])

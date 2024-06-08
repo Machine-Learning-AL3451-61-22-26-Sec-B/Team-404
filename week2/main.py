@@ -83,7 +83,7 @@ class DecisionTree:
             self._visualize_tree(node.right, depth + 1)
 
 # Streamlit app
-st.title("Decision Tree Classifier Demo")
+st.title("TEAM-404-Decision Tree Classifier Demo")
 
 # Upload CSV file
 uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])

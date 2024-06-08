@@ -23,7 +23,7 @@ model = GaussianNB()
 model.fit(X_train, y_train)
 
 # Streamlit app
-st.title('Play Tennis Predictor')
+st.title('TEAM-404-Play Tennis Predictor')
 
 st.write('Enter the weather conditions to predict whether you can play tennis:')
 

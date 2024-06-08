@@ -32,7 +32,7 @@ def learn(concepts, target):
     return specific_h, general_h
 
 def main():
-    st.title("Candidate Elimination Algorithm")
+    st.title("TEAM-404-Candidate Elimination Algorithm")
 
     uploaded_file = st.file_uploader("Upload CSV", type=["csv"])
 

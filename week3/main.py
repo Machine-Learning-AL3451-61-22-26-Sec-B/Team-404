@@ -44,7 +44,7 @@ learning_rate = 0.1
 nn = NeuralNetwork(input_size, hidden_size, output_size, learning_rate)
 
 # Create Streamlit interface
-st.title('Neural Network Training with Backpropagation')
+st.title('TEAM-404-Neural Network Training with Backpropagation')
 
 # Input dataset
 st.header('Training Data')

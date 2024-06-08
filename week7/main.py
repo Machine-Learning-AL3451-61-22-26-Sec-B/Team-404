@@ -42,7 +42,7 @@ def plot_clusters(data, labels, title):
 
 # Main function
 def main():
-    st.title('Clustering Comparison: EM vs K-Means')
+    st.title('TEAM-404-Clustering Comparison: EM vs K-Means')
 
     # Load data
     data = load_data()

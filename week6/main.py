@@ -5,7 +5,7 @@ from pgmpy.estimators import MaximumLikelihoodEstimator
 from pgmpy.inference import VariableElimination
 
 # Title of the Streamlit app
-st.title("COVID-19 Bayesian Inference")
+st.title("TEAM-404-COVID-19 Bayesian Inference")
 
 # Load the dataset
 data_path = 'corona.csv'  # Adjust the path if necessary

@@ -42,7 +42,7 @@ def train_and_evaluate(data):
     return accuracy, precision, recall
 
 # Streamlit app
-st.title('Naïve Bayes Document Classifier')
+st.title('TEAM-404-Naïve Bayes Document Classifier')
 
 # Load data
 data = load_data()

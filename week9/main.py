@@ -31,7 +31,7 @@ def plot_data(X, y, X_test, y_pred):
     st.pyplot(fig)
 
 def main():
-    st.title("Locally Weighted Regression")
+    st.title("TEAM-404-Locally Weighted Regression")
     st.write("This is an implementation of Locally Weighted Regression using Streamlit.")
     
     tau = st.slider("Bandwidth parameter (tau)", 0.1, 1.0, 0.5)
